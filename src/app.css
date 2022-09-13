@@ -18,6 +18,8 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --border-color: #ccc;
 }
 
 a {
@@ -34,6 +36,7 @@ a:hover {
   :root {
     color: #213547;
     background-color: #ffffff;
+    --border-color: #000;
   }
   a:hover {
     color: #747bff;

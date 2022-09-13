@@ -214,7 +214,7 @@ export abstract class BinaryConnectiveNode extends ASTNode {
 
 let variables = {'q': true, 'p': false, 'r': true};
 
-class VariableNode extends ASTNode {
+export class VariableNode extends ASTNode {
     constructor(public name: string) {
         super();
     }
@@ -223,45 +223,55 @@ class VariableNode extends ASTNode {
         return vars[this.name];
     }
 }
+class InvalidExpressionError extends Error {
+
+}
 
 class NotNode extends UnaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.child) throw new InvalidExpressionError();
         return !this.child.result(vars);
     }
 }
 
 class AndNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return this.childLeft.result(vars) && this.childRight.result(vars);
     }
 }
 
 class OrNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return this.childLeft.result(vars) || this.childRight.result(vars);
     }
 }
 
 class XorNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return this.childLeft.result(vars) != this.childRight.result(vars);
     }
 }
 
 class BiImplicationNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return this.childLeft.result(vars) === this.childRight.result(vars);
     }
 }
 
 class ImplicationNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return !this.childLeft.result(vars) || this.childRight.result(vars);
     }
 }
 
 class ImplicationReversedNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return this.childLeft.result(vars) || !this.childRight.result(vars);
     }
 }
