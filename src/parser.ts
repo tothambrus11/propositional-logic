@@ -1,3 +1,5 @@
+import {exclude_internal_props} from "svelte/internal";
+
 export enum TokenType {
     Variable,
     UnaryOperator,
@@ -30,6 +32,8 @@ export enum OperatorType {
     And,
     Or,
     Xor,
+    Nor,
+    Nand,
     Implication,
     ImplicationReversed,
     BiImplication
@@ -38,8 +42,10 @@ export enum OperatorType {
 const precedences = {
     [OperatorType.Not]: 1,
     [OperatorType.And]: 2,
+    [OperatorType.Nand]: 2,
     [OperatorType.Xor]: 2,
     [OperatorType.Or]: 3,
+    [OperatorType.Nor]: 3,
     [OperatorType.Implication]: 4,
     [OperatorType.ImplicationReversed]: 4,
     [OperatorType.BiImplication]: 5
@@ -81,7 +87,13 @@ export function lex(text: string): Token[] {
                 list.push({tokenType: TokenType.RParenthesis});
                 break;
             case '⊕':
-                list.push({tokenType: TokenType.BinaryOperator, opType: OperatorType.Xor})
+                list.push({tokenType: TokenType.BinaryOperator, opType: OperatorType.Xor});
+                break;
+            case '↓':
+                list.push({tokenType: TokenType.BinaryOperator, opType: OperatorType.Nor});
+                break;
+            case '↑':
+                list.push({tokenType: TokenType.BinaryOperator, opType: OperatorType.Nand});
                 break;
             default:
                 list.push({tokenType: TokenType.Variable, name: c});
@@ -162,7 +174,7 @@ function nodeifyExpression(expression: Expression, subExpStart: number, subExpEn
                 nodeifyExpression(expression, mostMainConnectiveIndex + 1, subExpEnd),
             );
         case OperatorType.ImplicationReversed:
-            return new BiImplicationNode(
+            return new ImplicationReversedNode(
                 nodeifyExpression(expression, subExpStart, mostMainConnectiveIndex),
                 nodeifyExpression(expression, mostMainConnectiveIndex + 1, subExpEnd),
             );
@@ -184,6 +196,16 @@ function nodeifyExpression(expression: Expression, subExpStart: number, subExpEn
         case OperatorType.Not:
             return new NotNode(
                 nodeifyExpression(expression, subExpStart + 1, subExpEnd)
+            );
+        case OperatorType.Nor:
+            return new NorNode(
+                nodeifyExpression(expression, subExpStart, mostMainConnectiveIndex),
+                nodeifyExpression(expression, mostMainConnectiveIndex + 1, subExpEnd)
+            );
+        case OperatorType.Nand:
+            return new NandNode(
+                nodeifyExpression(expression, subExpStart, mostMainConnectiveIndex),
+                nodeifyExpression(expression, mostMainConnectiveIndex + 1, subExpEnd)
             );
         default:
             throw new Error("wtf 222");
@@ -241,10 +263,24 @@ class AndNode extends BinaryConnectiveNode {
     }
 }
 
+class NandNode extends BinaryConnectiveNode {
+    result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
+        return !(this.childLeft.result(vars) && this.childRight.result(vars));
+    }
+}
+
 class OrNode extends BinaryConnectiveNode {
     result(vars: Variables): boolean {
         if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
         return this.childLeft.result(vars) || this.childRight.result(vars);
+    }
+}
+
+class NorNode extends BinaryConnectiveNode {
+    result(vars: Variables): boolean {
+        if(!this.childLeft || !this.childRight) throw new InvalidExpressionError();
+        return !(this.childLeft.result(vars) || this.childRight.result(vars));
     }
 }
 

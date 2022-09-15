@@ -19,9 +19,19 @@ body{
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --border-color: #ccc;
+  --border-color: transparent;
+  --border-color-focused: #ccc;
+  --separator-color: #444;
+  --header-bg: #1f5219;
+  --var-bg: #333;
 }
 
+html{
+  padding: 0;
+}
+body{
+  padding: 10px;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -37,6 +47,9 @@ a:hover {
     color: #213547;
     background-color: #ffffff;
     --border-color: #000;
+    --header-bg: #a8d0bb;
+    --var-bg: #d4ece3;
+    --separator-color: #ccc;
   }
   a:hover {
     color: #747bff;
