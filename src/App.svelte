@@ -86,10 +86,14 @@
             }
 
             try {
+                let varMapBool = {};
+                for (let v in varMap) {
+                    varMapBool[v] = !!varMap[v];
+                }
                 return {
                     rowNumber: i,
                     variableValues: Object.values(varMap),
-                    result: +ast?.result(varMap)
+                    result: +ast?.result(varMapBool)
                 }
             } catch (e) {
                 console.log(e);
@@ -102,7 +106,7 @@
         });
 
     }
-    let rows: { rowNumber: number, variableValues: number[], result: number }[] = [];
+    let rows: { rowNumber: number, variableValues: boolean[], result: number }[] = [];
 
     let inputEl: HTMLInputElement;
 

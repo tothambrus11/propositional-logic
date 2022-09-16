@@ -58,7 +58,6 @@ export function lex(text: string): Token[] {
     let list: Token[] = [];
     for (let i = 0; i < text.length; i++) {
         let c = text.charAt(i);
-        console.log("hello")
         switch (c) {
             case ' ':
                 continue;
