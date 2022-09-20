@@ -24,6 +24,7 @@ body{
   --separator-color: #444;
   --header-bg: #1f5219;
   --var-bg: #333;
+  --secondary-text: #666;
 }
 
 html{
@@ -50,6 +51,7 @@ a:hover {
     --header-bg: #a8d0bb;
     --var-bg: #d4ece3;
     --separator-color: #ccc;
+    --secondary-text: #000  ;
   }
   a:hover {
     color: #747bff;

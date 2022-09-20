@@ -115,7 +115,7 @@
 
 </script>
 
-<h1>Propositional Logic AST Parser and Evaluator</h1>
+<h1>Propositional Logic Expression Parser and Evaluator</h1>
 <div id="header">
     <input bind:value={text} bind:this={inputEl}/>
 </div>
@@ -151,6 +151,12 @@
 
 </div>
 
+<div id="usage">
+    <h3>How to use?</h3>
+    <p>You can input any kind of proposition containing parenthesis, letters and operators. You can enter special symbols either by their English name (like and), or by the corresponding arrow made of the &lt;-&gt; characters.</p>
+    <p>Supported operators: and, nand, or, nor, xor, &lt;->, ->, &lt;-</p>
+    <p>Feature requests are welcomed at <a href="mailto:ambrus@johetajava.hu">ambrus@johetajava.hu</a> or through github issues.</p>
+</div>
 
 <footer style="margin-top: 64px">
     &copy; 2022 Ambrus Tóth<br>
@@ -213,4 +219,10 @@
         align-items: center;
     }
 
+    #usage{
+        padding: 16px 32px;
+        margin: 32px 0;
+        border: 1px solid var(--secondary-text);
+        color: var(--secondary-text);
+    }
 </style>
