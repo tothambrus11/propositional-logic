@@ -1,7 +1,7 @@
 <script lang="ts">
     import {ASTNode, BinaryConnectiveNode, lex, parse, UnaryConnectiveNode, VariableNode} from "./parser";
 
-    let text = "a∧b∧b∧b∧b";
+    let text = "(a∨b)→c";
     $: {
         let selectionPos = inputEl ? inputEl.selectionStart : text.length;
         let st = text.slice(0, selectionPos);
