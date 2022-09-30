@@ -43,12 +43,12 @@ const precedences = {
     [OperatorType.Not]: 1,
     [OperatorType.And]: 2,
     [OperatorType.Nand]: 2,
-    [OperatorType.Xor]: 2,
-    [OperatorType.Or]: 2,
-    [OperatorType.Nor]: 2,
-    [OperatorType.Implication]: 3,
-    [OperatorType.ImplicationReversed]: 3,
-    [OperatorType.BiImplication]: 4
+    [OperatorType.Xor]: 3,
+    [OperatorType.Or]: 3,
+    [OperatorType.Nor]: 3,
+    [OperatorType.Implication]: 4,
+    [OperatorType.ImplicationReversed]: 4,
+    [OperatorType.BiImplication]: 5
 };
 
 export type Token = BinaryConnective | UnaryConnective | TokenBase | Variable;
